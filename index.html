@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PapaParse for converting CSV to JSON -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen p-6">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-blue-600 mb-2">Office & Village Directory</h1>
+            <p class="text-gray-500">Search by Office Name, SO Name, or Village</p>
+        </header>
+
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Type to search..." 
+                class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+            >
+        </div>
+
+        <div id="loading" class="text-center text-gray-500 py-10">
+            Loading data from Google Drive...
+        </div>
+
+        <div id="results" class="grid gap-4 md:grid-cols-2">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        // PASTE YOUR PUBLISHED GOOGLE SHEET CSV LINK HERE
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQPRX8-gLVHqHGsVRrqBqhVpeF1oBdQ_DQ-1vBS49OPtEqFisswvlEn2UEb3a881A/pubhtml";
+        
+        let directoryData = [];
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('results');
+        const loadingIndicator = document.getElementById('loading');
+
+        // Fetch and parse the CSV from Google Drive
+        Papa.parse(GOOGLE_SHEET_CSV_URL, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                // Map the CSV headers to our expected format
+                directoryData = results.data.map(row => ({
+                    so_name: row['NAME OF SO'] || "",
+                    office_name: row['Office Name'] || "",
+                    villages: row['Village Name'] || ""
+                }));
+                
+                loadingIndicator.style.display = 'none';
+                renderResults(directoryData);
+            },
+            error: function(err) {
+                loadingIndicator.innerText = "Error loading data. Make sure the Google Sheet is published to the web.";
+                console.error(err);
+            }
+        });
+
+        function renderResults(data) {
+            resultsContainer.innerHTML = '';
+            
+            if (data.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center py-4">No matching records found.</p>';
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-lg shadow border border-gray-100 hover:shadow-md transition-shadow';
+                
+                card.innerHTML = `
+                    <h2 class="text-xl font-semibold text-gray-800 mb-1">${item.office_name || 'N/A'}</h2>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mb-3">
+                        ${item.so_name || 'N/A'}
+                    </span>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        <strong class="text-gray-700">Villages:</strong> ${item.villages || 'None listed'}
+                    </p>
+                `;
+                fragment.appendChild(card);
+            });
+            
+            resultsContainer.appendChild(fragment);
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            const filteredData = directoryData.filter(item => {
+                return (item.so_name && item.so_name.toLowerCase().includes(query)) ||
+                       (item.office_name && item.office_name.toLowerCase().includes(query)) ||
+                       (item.villages && item.villages.toLowerCase().includes(query));
+            });
+            
+            renderResults(filteredData);
+        });
+    </script>
+</body>
+</html>
