@@ -1134,22 +1134,23 @@
             }).join('');
 
             resultsContainer.innerHTML = `
-                <div class="table-container">
-                    <table class="directory-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 110px;">PIN</th>
-                                <th style="width: 240px;">Office & Parent</th>
-                                <th style="width: 140px;">Type</th>
-                                <th>Coverage Area / Villages</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${rowsHtml}
-                        </tbody>
-                    </table>
-                </div>
-            `;
+        <div class="table-container">
+            <table class="directory-table">
+                <thead>
+                    <tr>
+                        <!-- Use percentages to give the Villages column a much broader area -->
+                        <th style="width: 12%;">PIN</th>
+                        <th style="width: 25%;">Office & Parent</th>
+                        <th style="width: 13%;">Type</th>
+                        <th style="width: 50%;">Coverage Area / Villages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rowsHtml}
+                </tbody>
+            </table>
+        </div>
+    `;
         }
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
