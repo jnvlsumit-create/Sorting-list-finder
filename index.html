@@ -1,131 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kiul RMS Sorting list finder</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<html lang="en"><body>
+    <!-- 1. Headings and Nav at the top -->
+    <div class="top-nav">
+        <span><i class="fa-solid fa-flag"></i> Department of Posts &bull; Ministry of Communications &bull; Government of India</span>
+        <span>RMS 'PT' Division, Kiul</span>
+    </div>
     
-    <!-- PWA Manifest for Add to Home Screen -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#c4122f">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/India_Post_Logo.svg/512px-India_Post_Logo.svg.png">
+    <header>
+        <div class="header-content">
+            <div class="brand-title">
+                <div class="logo-box"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <div>
+                    <h1>Kiul RMS Sorting list finder</h1>
+                    <p>RMS 'PT' Division, Kiul &bull; Nawada and Munger Dn directory</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="division-tag"><i class="fa-solid fa-map-location-dot"></i> Nawada and Munger Dn directory</div>
+                <a href="https://shyamal2021.github.io/Sumit_jha_shyam-s_bro/postal_sorting_test_app.html" class="btn-quiz" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-circle-question"></i> Quiz
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <style>
-        :root { --dop-red: #c4122f; --dop-dark-red: #900c22; --dop-yellow: #f8b319; --bg-gray: #f4f6f9; --card-bg: #ffffff; --text-dark: #222222; --text-muted: #555555; --border-color: #dddddd; --badge-so: #0d6efd; --badge-bo: #198754; --badge-ho: #c4122f; --badge-beat: #6f42c1; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-gray); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
-        .top-nav { background-color: #2b2b2b; color: #ffffff; font-size: 0.78rem; padding: 6px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-        header { background: linear-gradient(135deg, var(--dop-red) 0%, var(--dop-dark-red) 100%); color: white; padding: 16px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); border-bottom: 5px solid var(--dop-yellow); }
-        .header-content { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .brand-title { display: flex; align-items: center; gap: 12px; }
-        .brand-title .logo-box { background: white; color: var(--dop-red); width: 46px; height: 46px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 2px 5px rgba(0,0,0,0.25); flex-shrink: 0; }
-        .brand-title h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: 0.3px; line-height: 1.2; }
-        .brand-title p { font-size: 0.8rem; color: #fde4a9; margin-top: 3px; font-weight: 500; }
-        .division-tag { background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    <div class="container">
+        <!-- 2. Search Box and Filters in the middle -->
+        <div class="search-card">
+            <div class="search-box-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search village, PIN, office (e.g. Navada, Munger)..." autofocus>
+                <button type="button" class="voice-btn" id="voiceSearchBtn" title="Voice Search"><i class="fa-solid fa-microphone"></i></button>
+            </div>
+            <div class="filters-row">
+                <select id="pinFilter" class="filter-select"><option value="">All PIN Codes</option></select>
+                <select id="soFilter" class="filter-select"><option value="">All Parent SOs / HOs</option></select>
+                <select id="typeFilter" class="filter-select">
+                    <option value="">All Office Types</option>
+                    <option value="H">Head Post Office (HO)</option>
+                    <option value="S">Sub Post Office (SO)</option>
+                    <option value="R">Branch Post Office (BO)</option>
+                    <option value="B">Delivery Beat</option>
+                </select>
+                <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Report</button>
+                <button class="btn-reset" id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                <button class="btn-install blinking-btn" id="installBtn" style="display: none;">
+                    <i class="fa-solid fa-download"></i> Install App
+                </button>
+                <div class="stats-badge" id="statsCount">Ready to search</div>
+            </div>
+        </div>
         
-        /* Blue Quiz Button */
-        .btn-quiz { background-color: #0d6efd; color: #ffffff !important; border: 1px solid #0b5ed7; padding: 7px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
-        .btn-quiz:hover { background-color: #0b5ed7; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); }
-        .btn-quiz:active { transform: translateY(0); }
+        <div class="print-header" id="printHeader">
+            <h2>DEPARTMENT OF POSTS &bull; INDIA</h2>
+            <p><strong>RMS 'PT' Division, Kiul &bull; Sorting &amp; Beat Directory Report</strong></p>
+            <p id="printMeta" style="margin-top: 4px; font-size: 8pt; color: #555;"></p>
+        </div>
 
-        .container { max-width: 1200px; margin: 16px auto; padding: 0 12px; flex: 1; width: 100%; }
-        
-        .search-card { background: var(--card-bg); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 4px solid var(--dop-red); margin-bottom: 20px; }
-        
-        .search-box-wrapper { position: relative; margin-bottom: 12px; display: flex; align-items: center; }
-        .search-box-wrapper .search-icon { position: absolute; left: 14px; color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
-        .search-input { width: 100%; padding: 13px 48px 13px 42px; font-size: 1rem; border: 2px solid #ccc; border-radius: 8px; outline: none; transition: all 0.2s; }
-        .search-input:focus { border-color: var(--dop-red); box-shadow: 0 0 0 3px rgba(196, 18, 47, 0.15); }
-        
-        .voice-btn { position: absolute; right: 8px; background: none; border: none; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; padding: 8px 10px; border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-        .voice-btn:hover, .voice-btn:active { color: var(--dop-red); background: #f1f3f5; }
-        .voice-btn.listening { color: var(--dop-red); animation: pulse-mic 1s infinite alternate; }
-        @keyframes pulse-mic { from { transform: scale(1); opacity: 1; } to { transform: scale(1.25); opacity: 0.6; } }
-        
-        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        .filter-select { padding: 10px 12px; border-radius: 6px; border: 1px solid var(--border-color); background-color: white; font-size: 0.9rem; color: var(--text-dark); min-width: 140px; flex: 1 1 180px; outline: none; cursor: pointer; font-weight: 500; }
-        .filter-select:focus { border-color: var(--dop-red); }
-        .btn-print { background: var(--dop-red); color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex: 1 1 150px; transition: background-color 0.2s; }
-        .btn-print:hover { background: var(--dop-dark-red); }
-        .btn-reset { background: #f1f3f5; color: var(--text-muted); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 90px; transition: all 0.2s; }
-        .btn-reset:hover { background: #e2e6ea; color: var(--text-dark); }
-        
-        .btn-install { background: #198754; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 120px; transition: background-color 0.2s; }
-        .btn-install:hover { background: #146c43; }
+        <!-- 3. Search Results at the bottom -->
+        <div id="resultsContainer"></div>
+    </div>
 
-        .stats-badge { width: 100%; margin-top: 4px; font-size: 0.88rem; color: var(--text-muted); font-weight: 700; text-align: right; }
-        
-        /* TABULAR RESULTS STYLING */
-        .table-container { width: 100%; overflow-x: auto; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; -webkit-overflow-scrolling: touch; }
-        .directory-table { width: 100%; border-collapse: collapse; min-width: 700px; text-align: left; font-size: 0.9rem; }
-        .directory-table th { background-color: #2b2b2b; color: #ffffff; padding: 12px 14px; font-weight: 600; font-size: 0.84rem; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
-        .directory-table th:first-child { border-top-left-radius: 7px; }
-        .directory-table th:last-child { border-top-right-radius: 7px; }
-        .directory-table td { padding: 12px 14px; border-bottom: 1px solid #edf0f2; vertical-align: top; line-height: 1.4; }
-        .directory-table tr:hover { background-color: #f9fbfd; }
-        .directory-table tr:last-child td { border-bottom: none; }
-        
-        .pin-badge { background: var(--dop-yellow); color: #000; font-weight: 800; padding: 3px 8px; border-radius: 4px; font-size: 0.82rem; letter-spacing: 0.5px; display: inline-block; white-space: nowrap; }
-        .type-badge { font-size: 0.72rem; padding: 3px 7px; border-radius: 4px; color: #fff; font-weight: 700; text-transform: uppercase; display: inline-block; white-space: nowrap; }
-        .type-so { background-color: var(--badge-so); }
-        .type-bo { background-color: var(--badge-bo); }
-        .type-ho { background-color: var(--badge-ho); }
-        .type-beat { background-color: var(--badge-beat); }
-        
-        .office-cell-name { font-weight: 700; color: var(--dop-dark-red); display: block; font-size: 0.95rem; }
-        .office-cell-parent { font-size: 0.78rem; color: var(--text-muted); }
-        
-        .village-pill-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
-        .table-village-pill { background-color: #f1f3f5; color: #222; padding: 3px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; border: 1px solid #e2e4e8; display: inline-block; }
-        .table-village-pill.highlight { background-color: #fff3cd; border-color: #ffe69c; color: #856404; font-weight: 800; }
-        
-        .empty-state { text-align: center; padding: 40px 16px; background: white; border-radius: 8px; border: 1px dashed #ccc; }
-        .empty-state i { font-size: 2.5rem; color: #bbb; margin-bottom: 10px; }
-        .empty-state h3 { font-size: 1.1rem; }
-        .empty-state p { font-size: 0.85rem; }
-
-        @keyframes blink-install {
-            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
-            50% { opacity: 0.8; transform: scale(1.02); box-shadow: 0 0 10px 5px rgba(25, 135, 84, 0); }
-            100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
-        }
-        .blinking-btn {
-            animation: blink-install 1.5s infinite;
-        }
-        
-        @media (max-width: 650px) {
-            .brand-title h1 { font-size: 1.15rem; }
-            .brand-title p { font-size: 0.75rem; }
-            .header-actions { width: 100%; justify-content: flex-start; }
-            .division-tag { flex: 1 1 auto; justify-content: center; }
-            .btn-quiz { flex: 1 1 auto; justify-content: center; }
-            .filter-select, .btn-print, .btn-reset, .btn-install { flex: 1 1 100%; min-width: 100%; }
-            .stats-badge { text-align: center; margin-top: 8px; }
-            .directory-table { font-size: 0.82rem; }
-            .directory-table th, .directory-table td { padding: 10px 8px; }
-        }
-        
-        .print-header { display: none; }
-        @media print {
-            body { background-color: #ffffff !important; color: #000000 !important; font-size: 9pt; }
-            .top-nav, header, .search-card, footer { display: none !important; }
-            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
-            .print-header { display: block !important; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 15px; }
-            .print-header h2 { font-size: 14pt; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
-            .print-header p { font-size: 8.5pt; color: #444444; }
-            .table-container { border: 1px solid #000 !important; box-shadow: none !important; }
-            .directory-table th { background-color: #ddd !important; color: #000 !important; border-bottom: 1px solid #000 !important; }
-            .directory-table td { border-bottom: 1px solid #ccc !important; }
-            .pin-badge, .type-badge { border: 1px solid #000 !important; color: #000 !important; background: transparent !important; }
-            .table-village-pill { background: none !important; border: 1px solid #bbb !important; color: #000 !important; font-size: 7.5pt !important; }
-            .table-village-pill.highlight { text-decoration: underline !important; font-weight: bold !important; }
-        }
-        footer { background: #222; color: #aaa; padding: 16px; font-size: 0.78rem; text-align: center; border-top: 3px solid var(--dop-red); margin-top: 30px; }
-    </style>
-</head>
-<body>
+    <!-- 4. Footer stays at the very bottom -->
+    <footer>
+        <p>&copy; 2026 RMS 'PT' Division, Kiul &bull; Department of Posts &bull; India Post Sorting Network</p>
+    </footer>
     <div class="container">
         <!-- 1. Search Results on the upper side -->
         <div id="resultsContainer"></div>
