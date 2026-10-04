@@ -126,34 +126,11 @@
     </style>
 </head>
 <body>
-    <div class="top-nav">
-        <span><i class="fa-solid fa-flag"></i> Department of Posts &bull; Ministry of Communications &bull; Government of India</span>
-        <span>RMS 'PT' Division, Kiul</span>
-    </div>
-    <header>
-        <div class="header-content">
-            <div class="brand-title">
-                <div class="logo-box"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div>
-                    <h1>Kiul RMS Sorting list finder</h1>
-                    <p>RMS 'PT' Division, Kiul &bull; Nawada and Munger Dn directory</p>
-                </div>
-            </div>
-            <div class="header-actions">
-                <div class="division-tag"><i class="fa-solid fa-map-location-dot"></i> Nawada and Munger Dn directory</div>
-                <a href="https://shyamal2021.github.io/Sumit_jha_shyam-s_bro/postal_sorting_test_app.html" class="btn-quiz" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-solid fa-circle-question"></i> Quiz
-                </a>
-            </div>
-        </div>
-    </header>
     <div class="container">
-        <div class="print-header" id="printHeader">
-            <h2>DEPARTMENT OF POSTS &bull; INDIA</h2>
-            <p><strong>RMS 'PT' Division, Kiul &bull; Sorting &amp; Beat Directory Report</strong></p>
-            <p id="printMeta" style="margin-top: 4px; font-size: 8pt; color: #555;"></p>
-        </div>
+        <!-- 1. Search Results on the upper side -->
+        <div id="resultsContainer"></div>
 
+        <!-- 2. Search Box and Filters below results, above headings -->
         <div class="search-card">
             <div class="search-box-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -179,8 +156,37 @@
             </div>
         </div>
         
-        <div id="resultsContainer"></div>
+        <div class="print-header" id="printHeader">
+            <h2>DEPARTMENT OF POSTS &bull; INDIA</h2>
+            <p><strong>RMS 'PT' Division, Kiul &bull; Sorting &amp; Beat Directory Report</strong></p>
+            <p id="printMeta" style="margin-top: 4px; font-size: 8pt; color: #555;"></p>
+        </div>
     </div>
+
+    <!-- 3. Headings and Nav on the lower side -->
+    <div class="top-nav">
+        <span><i class="fa-solid fa-flag"></i> Department of Posts &bull; Ministry of Communications &bull; Government of India</span>
+        <span>RMS 'PT' Division, Kiul</span>
+    </div>
+    
+    <header>
+        <div class="header-content">
+            <div class="brand-title">
+                <div class="logo-box"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <div>
+                    <h1>Kiul RMS Sorting list finder</h1>
+                    <p>RMS 'PT' Division, Kiul &bull; Nawada and Munger Dn directory</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="division-tag"><i class="fa-solid fa-map-location-dot"></i> Nawada and Munger Dn directory</div>
+                <a href="https://shyamal2021.github.io/Sumit_jha_shyam-s_bro/postal_sorting_test_app.html" class="btn-quiz" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-circle-question"></i> Quiz
+                </a>
+            </div>
+        </div>
+    </header>
+
     <footer>
         <p>&copy; 2026 RMS 'PT' Division, Kiul &bull; Department of Posts &bull; India Post Sorting Network</p>
     </footer>
