@@ -1098,16 +1098,21 @@
 
             const rowsHtml = filtered.map(item => {
                 const pills = item.villages.map(v => {
-                    let isMatched = false;
-                    if (query) {
-                        if (v.toLowerCase().includes(query)) {
-                            isMatched = true;
-                        } else if (normQuery.length >= 3 && phoneticNormalize(v).includes(normQuery)) {
-                            isMatched = true;
-                        }
-                    }
-                    return `<span class="table-village-pill ${isMatched ? 'highlight' : ''}">${v}</span>`;
-                }).join('');
+            let isMatched = false;
+            if (query) {
+                if (v.toLowerCase().includes(query)) {
+                    isMatched = true;
+                } else if (normQuery.length >= 3 && phoneticNormalize(v).includes(normQuery)) {
+                    isMatched = true;
+                }
+                
+                // NEW: If there is a search query and this village doesn't match, hide it entirely
+                if (!isMatched) {
+                    return ''; 
+                }
+            }
+            return `<span class="table-village-pill ${isMatched ? 'highlight' : ''}"> ${v} </span>`;
+        }).join('');
 
                 return `
                     <tr>
